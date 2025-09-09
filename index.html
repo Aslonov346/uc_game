@@ -4,37 +4,41 @@
 <meta charset="UTF-8">
 <title>UC o‘yini</title>
 <style>
-body {
+html, body {
     margin: 0;
-    height: 100vh;
+    height: 100%;
+    width: 100%;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(135deg, #6a11cb, #2575fc);
-    font-family: 'Arial', sans-serif;
-    overflow: hidden;
-    position: relative;
 }
 
 #gameArea {
-    width: 300px;
-    height: 300px;
+    width: 90vmin; /* ekraning 90% ga teng */
+    height: 90vmin;
     background: radial-gradient(circle at top left, #ff6a00, #ee0979);
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    box-shadow: 0 15px 50px rgba(0,0,0,0.4);
     transition: transform 0.2s, box-shadow 0.2s;
-    user-select: none;
     position: relative;
     overflow: hidden;
 }
 
+#gameArea:active {
+    transform: scale(0.97);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+
 #gameArea img {
-    width: 60%;
-    height: 60%;
+    width: 50%;
+    height: 50%;
     object-fit: contain;
     pointer-events: none;
 }
@@ -66,9 +70,10 @@ body {
 <body>
 
 <div id="gameArea">
-    <!-- PUBG Mobile avatar -->
+    <!-- PUBG Mobile avatar markazda -->
     <img src="https://upload.wikimedia.org/wikipedia/en/7/7b/PUBG-Mobile-Logo.png" alt="PUBG Mobile">
 </div>
+
 <div id="scoreDisplay">Ball: <span id="score">0</span></div>
 
 <script>
@@ -80,10 +85,10 @@ function addScore(clientX, clientY) {
     score += 1;
     scoreEl.innerText = score;
 
-    // Gradient rangni o'zgartirish
+    // Gradient rangni tasodifiy o'zgartirish
     gameArea.style.background = `radial-gradient(circle at top left, hsl(${Math.random()*360}, 80%, 60%), hsl(${Math.random()*360}, 80%, 50%))`;
 
-    // +1 animatsiyasini yaratish
+    // +1 animatsiyasi
     const plus = document.createElement('div');
     plus.className = 'plus-one';
     plus.style.left = (clientX - 10) + 'px';
@@ -93,7 +98,7 @@ function addScore(clientX, clientY) {
     setTimeout(() => plus.remove(), 800);
 }
 
-// Click event
+// Click
 gameArea.addEventListener('click', (e) => {
     addScore(e.clientX, e.clientY);
 });

@@ -1,39 +1,71 @@
 <!DOCTYPE html>
-<html>
+<html lang="uz">
 <head>
+    <meta charset="UTF-8">
     <title>UC o‘yini</title>
     <style>
         body {
             margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             height: 100vh;
-            background: #222;
-            color: #fff;
-            flex-direction: column;
-            font-family: Arial, sans-serif;
-        }
-        #gameArea {
-            width: 300px;
-            height: 500px;
-            background: #444;
             display: flex;
             justify-content: center;
             align-items: center;
-            cursor: pointer;
-            font-size: 24px;
-            border-radius: 15px;
-            user-select: none;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            position: relative;
         }
+
+        #gameArea {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle at top left, #ff6a00, #ee0979);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: #fff;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            user-select: none;
+            position: relative;
+        }
+
+        #gameArea:active {
+            transform: scale(0.95);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
         #scoreDisplay {
-            margin-top: 20px;
+            position: absolute;
+            top: 20px;
+            font-size: 28px;
+            color: #fff;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+        }
+
+        .plus-one {
+            position: absolute;
+            color: #fff;
             font-size: 20px;
+            font-weight: bold;
+            animation: rise 0.8s ease-out forwards;
+            pointer-events: none;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+
+        @keyframes rise {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-50px); opacity: 0; }
         }
     </style>
 </head>
 <body>
-    <div id="gameArea">UC uchun bos!</div>
+
+    <div id="gameArea">UC uchun bosing</div>
     <div id="scoreDisplay">Ball: <span id="score">0</span></div>
 
     <script>
@@ -41,11 +73,40 @@
         const scoreEl = document.getElementById('score');
         const gameArea = document.getElementById('gameArea');
 
-        gameArea.addEventListener('click', () => {
+        function addScore(x, y) {
             score += 1;
             scoreEl.innerText = score;
+
+            // Rangni tasodifiy o'zgartirish
+            gameArea.style.background = `radial-gradient(circle at top left, hsl(${Math.random()*360}, 80%, 60%), hsl(${Math.random()*360}, 80%, 50%))`;
+
+            // +1 animatsiyasi
+            const plus = document.createElement('div');
+            plus.className = 'plus-one';
+            plus.style.left = x + 'px';
+            plus.style.top = y + 'px';
+            plus.innerText = '+1';
+            document.body.appendChild(plus);
+            setTimeout(() => plus.remove(), 800);
+        }
+
+        // Oddiy click
+        gameArea.addEventListener('click', (e) => {
+            const rect = gameArea.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            addScore(e.clientX, e.clientY);
         });
+
+        // Touch (multi-touch) bilan ishlash
+        gameArea.addEventListener('touchstart', (e) => {
+            for (let i = 0; i < e.touches.length; i++) {
+                addScore(e.touches[i].clientX, e.touches[i].clientY);
+            }
+            e.preventDefault();
+        }, {passive: false});
+
     </script>
+
 </body>
 </html>
-

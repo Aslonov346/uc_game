@@ -17,26 +17,26 @@ body {
 }
 
 #gameArea {
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
     background: radial-gradient(circle at top left, #ff6a00, #ee0979);
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 24px;
-    color: #fff;
-    text-align: center;
     cursor: pointer;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
     transition: transform 0.2s, box-shadow 0.2s;
     user-select: none;
     position: relative;
+    overflow: hidden;
 }
 
-#gameArea:active {
-    transform: scale(0.95);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+#gameArea img {
+    width: 60%;
+    height: 60%;
+    object-fit: contain;
+    pointer-events: none;
 }
 
 #scoreDisplay {
@@ -65,7 +65,10 @@ body {
 </head>
 <body>
 
-<div id="gameArea">UC uchun bosing</div>
+<div id="gameArea">
+    <!-- PUBG Mobile avatar -->
+    <img src="https://upload.wikimedia.org/wikipedia/en/7/7b/PUBG-Mobile-Logo.png" alt="PUBG Mobile">
+</div>
 <div id="scoreDisplay">Ball: <span id="score">0</span></div>
 
 <script>
@@ -73,7 +76,6 @@ let score = 0;
 const scoreEl = document.getElementById('score');
 const gameArea = document.getElementById('gameArea');
 
-// +1 qo'shish funksiyasi
 function addScore(clientX, clientY) {
     score += 1;
     scoreEl.innerText = score;
@@ -96,7 +98,7 @@ gameArea.addEventListener('click', (e) => {
     addScore(e.clientX, e.clientY);
 });
 
-// Multi-touch event
+// Multi-touch
 gameArea.addEventListener('touchstart', (e) => {
     for (let i = 0; i < e.touches.length; i++) {
         addScore(e.touches[i].clientX, e.touches[i].clientY);
@@ -107,7 +109,3 @@ gameArea.addEventListener('touchstart', (e) => {
 
 </body>
 </html>
-
-</body>
-</html>
-

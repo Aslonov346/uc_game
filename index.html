@@ -2,114 +2,52 @@
 <html lang="uz">
 <head>
 <meta charset="UTF-8">
-<title>UC o‘yini</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UC O'yini</title>
 <style>
-html, body {
-    margin: 0;
-    height: 100%;
-    width: 100%;
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #6a11cb, #2575fc);
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#gameArea {
-    width: 90vmin; /* ekraning 90% ga teng */
-    height: 90vmin;
-    background: radial-gradient(circle at top left, #ff6a00, #ee0979);
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    box-shadow: 0 15px 50px rgba(0,0,0,0.4);
-    transition: transform 0.2s, box-shadow 0.2s;
-    position: relative;
-    overflow: hidden;
-}
-
-#gameArea:active {
-    transform: scale(0.97);
-    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-}
-
-#gameArea img {
-    width: 50%;
-    height: 50%;
-    object-fit: contain;
-    pointer-events: none;
-}
-
-#scoreDisplay {
-    position: absolute;
-    top: 20px;
-    font-size: 28px;
-    color: #fff;
-    text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
-}
-
-.plus-one {
-    position: absolute;
-    color: #fff;
-    font-size: 20px;
-    font-weight: bold;
-    animation: rise 0.8s ease-out forwards;
-    pointer-events: none;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-}
-
-@keyframes rise {
-    0% { transform: translateY(0); opacity: 1; }
-    100% { transform: translateY(-50px); opacity: 0; }
-}
+    body {
+        background: #1e1e2f;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-family: Arial, sans-serif;
+        flex-direction: column;
+    }
+    .circle {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #ff0080, #7928ca);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+        cursor: pointer;
+        user-select: none;
+        margin-bottom: 20px;
+    }
+    .score {
+        font-size: 24px;
+        font-weight: bold;
+    }
 </style>
 </head>
 <body>
 
-<div id="gameArea">
-    <!-- PUBG Mobile avatar markazda -->
-    <img src="https://upload.wikimedia.org/wikipedia/en/7/7b/PUBG-Mobile-Logo.png" alt="PUBG Mobile">
-</div>
-
-<div id="scoreDisplay">Ball: <span id="score">0</span></div>
+<div class="circle" id="ucCircle">UC uchun bosing</div>
+<div class="score">Ball: <span id="score">0</span></div>
 
 <script>
 let score = 0;
+const circle = document.getElementById('ucCircle');
 const scoreEl = document.getElementById('score');
-const gameArea = document.getElementById('gameArea');
 
-function addScore(clientX, clientY) {
-    score += 1;
-    scoreEl.innerText = score;
-
-    // Gradient rangni tasodifiy o'zgartirish
-    gameArea.style.background = `radial-gradient(circle at top left, hsl(${Math.random()*360}, 80%, 60%), hsl(${Math.random()*360}, 80%, 50%))`;
-
-    // +1 animatsiyasi
-    const plus = document.createElement('div');
-    plus.className = 'plus-one';
-    plus.style.left = (clientX - 10) + 'px';
-    plus.style.top = (clientY - 20) + 'px';
-    plus.innerText = '+1';
-    document.body.appendChild(plus);
-    setTimeout(() => plus.remove(), 800);
-}
-
-// Click
-gameArea.addEventListener('click', (e) => {
-    addScore(e.clientX, e.clientY);
+circle.addEventListener('click', () => {
+    score++;
+    scoreEl.textContent = score;
 });
-
-// Multi-touch
-gameArea.addEventListener('touchstart', (e) => {
-    for (let i = 0; i < e.touches.length; i++) {
-        addScore(e.touches[i].clientX, e.touches[i].clientY);
-    }
-    e.preventDefault();
-}, {passive: false});
 </script>
 
 </body>
